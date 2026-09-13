@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sara Fahim — Data Engineer</title>
+<meta name="description" content="Sara Mohamed Atta Fahim — Data Engineer on Microsoft Azure. I turn scattered spreadsheets and databases into one reliable, automated data source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Kufi+Arabic:wght@600;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- tokens ---------- */
+:root{
+  --bg:#EDEFF2;
+  --surface:#FFFFFF;
+  --surface-2:#F6F7F9;
+  --ink:#15181E;
+  --muted:#5B6270;
+  --line:#D5D9E0;
+  --accent:#2B3A8F;
+  --accent-ink:#FFFFFF;
+  --bronze:#A8653A;
+  --silver:#7E868F;
+  --gold:#B8901C;
+  --flag:#B3372F;
+  --todo-bg:#FFF1B8;
+  --todo-ink:#5C4400;
+  --radius:10px;
+  --display:"Big Shoulders Display", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+:root[data-theme="dark"]{
+  --bg:#0F1116;
+  --surface:#171A21;
+  --surface-2:#1D2129;
+  --ink:#E7E9EE;
+  --muted:#9AA1AE;
+  --line:#2A2F39;
+  --accent:#8C9BFF;
+  --accent-ink:#0F1116;
+  --bronze:#D08A5C;
+  --silver:#AEB5BD;
+  --gold:#E2BC4A;
+  --flag:#F07A70;
+  --todo-bg:#4A3B00;
+  --todo-ink:#FFE38A;
+  color-scheme: dark;
+}
+:root[dir="rtl"]{
+  --display:"Noto Kufi Arabic", "Geeza Pro", sans-serif;
+  --body:"Noto Sans Arabic", "Geeza Pro", system-ui, sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased;transition:background .25s,color .25s}
+img{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:24px}
+mark.todo{background:var(--todo-bg);color:var(--todo-ink);padding:0 .3em;border-radius:3px;font-weight:600}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:68px}
+.logo{font:800 22px/1 "Big Shoulders Display","Arial Narrow",sans-serif;letter-spacing:.04em;text-decoration:none;display:flex;align-items:center;gap:8px;direction:ltr}
+.logo i{display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--gold);box-shadow:-14px 0 0 var(--silver),-28px 0 0 var(--bronze);margin-left:28px}
+.nav ul{list-style:none;display:flex;gap:2px;margin:0 auto;padding:0}
+.nav ul a{display:block;padding:8px 10px;font:500 13px/1 var(--mono);text-transform:lowercase;text-decoration:none;color:var(--muted);border-radius:6px}
+[dir="rtl"] .nav ul a{font:500 14px/1 var(--body)}
+.nav ul a:hover{color:var(--ink);background:var(--surface-2)}
+.nav ul a.active{color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent);border-radius:0}
+.nav-actions{display:flex;align-items:center;gap:10px;margin-inline-start:auto}
+.icon-btn{width:38px;height:38px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;font:600 14px/1 var(--mono)}
+.icon-btn svg{width:18px;height:18px}
+#lang{font:600 15px/1 "Noto Sans Arabic",var(--mono)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;font:600 15px/1 var(--body);text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.1)}
+.btn-ghost{border-color:var(--line);background:var(--surface);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.menu-btn{display:none}
+@media (max-width:1020px){
+  .nav ul{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 16px 16px}
+  .nav ul.open{display:flex}
+  .nav ul a{padding:12px 8px;font-size:15px}
+  .menu-btn{display:grid}
+  .nav .btn-primary{display:none}
+}
+
+/* ---------- hero ---------- */
+.hero{padding-block:72px 56px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+.eyebrow{font:500 13px/1.4 var(--mono);color:var(--muted);letter-spacing:.02em;margin:0 0 14px}
+[dir="rtl"] .eyebrow{font:500 15px/1.4 var(--body)}
+.hero h1{font:800 clamp(56px,8.4vw,112px)/.86 var(--display);text-transform:uppercase;letter-spacing:-.005em;margin:0}
+[dir="rtl"] .hero h1{font-size:clamp(42px,6vw,76px);line-height:1.25}
+.hero h1 span{display:block;color:var(--muted);font-weight:600}
+.role{font:600 19px/1.3 var(--body);margin:22px 0 10px}
+.usp{font-size:19px;line-height:1.55;max-width:34em;color:var(--muted);margin:0 0 28px}
+[dir="rtl"] .usp{line-height:1.8}
+.usp strong{color:var(--ink);font-weight:600}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* signature: pipeline */
+.pipeline{margin:0;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px}
+.pipeline-head{display:flex;justify-content:space-between;font:500 12px/1 var(--mono);color:var(--muted);margin-bottom:8px;direction:ltr}
+.pipeline-head .ok{color:var(--gold)}
+.pipeline svg{width:100%;height:auto;display:block}
+.pipeline text{font-family:var(--mono);font-size:11px;fill:var(--ink)}
+.pipeline .sub{fill:var(--muted);font-size:10px}
+.pipeline .src rect{fill:var(--surface-2);stroke:var(--line)}
+.pipeline .flow{fill:none;stroke-width:2;stroke-dasharray:4 7;animation:flow 1.4s linear infinite}
+.pipeline .base{fill:none;stroke:var(--line);stroke-width:2}
+@keyframes flow{to{stroke-dashoffset:-22}}
+.pipeline-legend{display:flex;gap:16px;flex-wrap:wrap;font:400 12px/1.4 var(--mono);color:var(--muted);margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+[dir="rtl"] .pipeline-legend{font:400 13px/1.5 var(--body)}
+.pipeline-legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-inline-end:6px;background:var(--c)}
+
+/* ---------- sections ---------- */
+section.block{padding-block:80px;border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:36px}
+.sec-head h2{font:800 clamp(40px,5.4vw,64px)/.9 var(--display);text-transform:uppercase;margin:0}
+[dir="rtl"] .sec-head h2{font-size:clamp(32px,4.2vw,48px);line-height:1.3}
+.sec-head .tbl{font:500 13px/1 var(--mono);color:var(--muted);direction:ltr}
+.sec-head .tbl::before{content:"table ";color:var(--accent)}
+.lede{font-size:19px;color:var(--muted);max-width:42em;margin:-18px 0 32px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0}
+.tags li{font:500 12px/1 var(--mono);padding:6px 9px;border-radius:5px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink)}
+[dir="rtl"] .tags li{font:500 13px/1.2 var(--body)}
+[dir="rtl"] *{letter-spacing:0!important}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;align-items:start}
+.about h3{font:700 clamp(26px,3vw,34px)/1.25 var(--body);margin:0 0 20px;letter-spacing:-.01em;max-width:18em}
+.about p{margin:0 0 16px;max-width:40em}
+[dir="rtl"] .about p{line-height:1.85}
+.about .hi{background:color-mix(in srgb,var(--accent) 12%,transparent);padding:1px 4px;border-radius:3px}
+.monogram{width:84px;height:84px;border-radius:12px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:800 38px/1 "Big Shoulders Display","Arial Narrow",sans-serif;letter-spacing:.03em;margin-bottom:16px;position:relative}
+.monogram::after{content:"";position:absolute;inset-inline-end:-6px;bottom:-6px;width:18px;height:18px;border-radius:4px;background:var(--gold);border:3px solid var(--surface)}
+.id-card h4{margin:0;font:700 19px/1.3 var(--body)}
+.id-card .sub{margin:2px 0 16px;color:var(--muted);font-size:15px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin:0 0 18px}
+.kv dt{font-family:var(--mono);color:var(--muted);font-size:12px;padding-top:2px}
+[dir="rtl"] .kv dt{font:500 13px/1.5 var(--body)}
+.kv dd{margin:0}
+
+/* education */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.col-title{font:600 13px/1 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 14px}
+[dir="rtl"] .col-title{font:600 15px/1.2 var(--body)}
+.edu h4,.cert h4{font:700 20px/1.3 var(--body);margin:0 0 6px}
+.meta{color:var(--muted);font-size:15px;margin:0 0 4px}
+.row-split{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:16px;padding-top:14px;font-size:15px}
+.cert-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.issuer{display:flex;align-items:center;gap:10px;font:600 14px/1.2 var(--body)}
+.issuer i{width:30px;height:30px;border-radius:7px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:700 11px/1 var(--mono);font-style:normal}
+.ext{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700}
+
+/* skills */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.skill h4{font:700 18px/1.3 var(--body);margin:0 0 6px}
+.skill p{color:var(--muted);font-size:15px;margin:0 0 16px}
+.skill.learning{background:transparent;border-style:dashed}
+
+/* experience */
+.exp{display:grid;grid-template-columns:240px 1fr;gap:32px}
+.exp-side .date{font:500 13px/1 var(--mono);display:inline-block;padding:6px 9px;border-radius:5px;background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--ink);margin-bottom:14px}
+.exp-side h4{font:700 22px/1.25 var(--body);margin:0 0 6px}
+.car{display:grid;gap:12px;margin-bottom:18px}
+.car h5{margin:0 0 4px;font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--c)}
+[dir="rtl"] .car h5{font:700 14px/1.3 var(--body)}
+.car h5::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--c);margin-inline-end:8px;vertical-align:1px}
+.car p,.car ul{margin:0;font-size:16px}
+.car ul{padding-inline-start:18px}
+.car li{margin-bottom:3px}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.service h4{font:700 21px/1.25 var(--body);margin:0 0 10px}
+.service dl{margin:0 0 18px;display:grid;gap:10px}
+.service dt{font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:3px}
+[dir="rtl"] .service dt{font:600 13px/1.3 var(--body)}
+.service dd{margin:0;font-size:15.5px}
+.service dd.result{font-weight:600}
+
+/* projects */
+.projects{display:grid;gap:22px}
+.project{display:grid;grid-template-columns:1fr 1.25fr;gap:0;padding:0;overflow:hidden}
+.p-cover{background:var(--surface-2);border-inline-end:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:flex-start;gap:22px}
+.p-cover svg{width:100%;height:auto;max-height:220px;direction:ltr}
+.p-cover svg text{font-family:var(--mono);font-size:9px;fill:var(--ink);text-anchor:middle}
+.p-cover svg .n{fill:var(--surface);stroke:var(--line)}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{font:500 11px/1 var(--mono);padding:6px 8px;border-radius:5px;border:1px solid var(--line);background:var(--surface)}
+[dir="rtl"] .badge{font:500 13px/1.2 var(--body)}
+.badge.concept{border-color:var(--gold);color:var(--ink)}
+.p-body{padding:26px 28px}
+.p-body h4{font:700 24px/1.3 var(--body);margin:0 0 6px}
+.p-body .one{color:var(--muted);margin:0 0 18px}
+.p-body .role-line{font:500 13px/1.4 var(--mono);color:var(--muted);margin:0 0 14px}
+[dir="rtl"] .p-body .role-line{font:500 14px/1.5 var(--body)}
+.p-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.concept-note{font:400 13px/1.5 var(--mono);color:var(--muted);margin:0}
+[dir="rtl"] .concept-note{font:400 14px/1.6 var(--body)}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:24px}
+.direct{display:grid;gap:12px;align-content:start}
+.direct a{display:flex;gap:14px;align-items:center;padding:16px 18px;text-decoration:none}
+.direct a:hover{border-color:var(--accent)}
+.direct .k{font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:5px}
+[dir="rtl"] .direct .k{font:600 13px/1.3 var(--body)}
+.direct .v{font-weight:600;word-break:break-word}
+.direct .ic{width:36px;height:36px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;flex:none;font:600 12px/1 var(--mono)}
+form.card{display:grid;gap:14px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font:500 12px/1 var(--mono);color:var(--muted);display:grid;gap:7px}
+[dir="rtl"] label{font:500 14px/1.3 var(--body)}
+input,textarea{font:400 16px/1.4 var(--body);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px 13px;width:100%}
+textarea{min-height:120px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding-block:44px 28px;font-size:15px}
+.foot{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;margin-bottom:30px}
+.foot h5{font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 12px}
+[dir="rtl"] .foot h5{font:600 14px/1.3 var(--body)}
+.foot p{margin:0;color:var(--muted)}
+.foot ul{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.foot a{text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.legal{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:400 13px/1.4 var(--mono);border-top:1px dashed var(--line);padding-top:18px}
+[dir="rtl"] .legal{font:400 14px/1.5 var(--body)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* responsive */
+@media (max-width:900px){
+  .hero .wrap,.about-grid,.two,.contact-grid,.exp,.project,.foot{grid-template-columns:1fr}
+  .skills-grid,.services{grid-template-columns:1fr 1fr}
+  .p-cover{border-inline-end:0;border-bottom:1px solid var(--line)}
+  .hero{padding-block:44px 40px}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .skills-grid,.services,.f-row{grid-template-columns:1fr}
+  section.block{padding-block:56px}
+  body{font-size:16px}
+  .p-body{padding:22px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pipeline .flow{animation:none;stroke-dasharray:none}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+
+/* print → PDF */
+@page{size:A4;margin:12mm}
+@media print{
+  :root,:root[data-theme="dark"]{--bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#F4F5F8;--ink:#15181E;--muted:#4E5562;--line:#D5D9E0;--accent:#2B3A8F;--accent-ink:#fff;--bronze:#A8653A;--silver:#7E868F;--gold:#B8901C;--todo-bg:#FFF1B8;--todo-ink:#5C4400}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:12.5px;zoom:.78}
+  .nav,.menu-btn,form.card,.hero .cta,.p-links .btn-ghost{display:none!important}
+  .reveal{opacity:1;transform:none}
+  .pipeline .flow{animation:none}
+  html{scroll-behavior:auto}
+  .wrap{max-width:230mm;margin:0 auto;padding-inline:0}
+  .sec-head{break-after:avoid}
+  .hero{padding-block:8px 24px}
+  .hero .wrap{grid-template-columns:1fr 1fr;gap:26px}
+  .hero h1{font-size:54px}
+  [dir="rtl"] .hero h1{font-size:44px}
+  .pipeline{max-width:92mm;justify-self:end}
+  section.block{padding-block:26px;break-inside:avoid}
+  #projects{break-inside:auto;break-before:page}
+  .sec-head{margin-bottom:18px}
+  .sec-head h2{font-size:40px}
+  .lede{margin:-8px 0 18px;font-size:14px}
+  .card{padding:16px;break-inside:avoid}
+  .about-grid{grid-template-columns:1.6fr 1fr}
+  .two{grid-template-columns:1fr 1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .direct{grid-template-columns:1fr 1fr}
+  .skills-grid,.services{grid-template-columns:repeat(3,1fr);gap:12px}
+  .exp{grid-template-columns:190px 1fr}
+  .project{grid-template-columns:.9fr 1.4fr;break-inside:avoid}
+  .p-body{padding:16px 18px}
+  .p-body h4{font-size:19px}
+  .foot{grid-template-columns:1.2fr 1fr 1fr}
+  footer{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#home" aria-label="Sara Fahim"><i aria-hidden="true"></i>SF</a>
+    <ul id="menu">
+      <li><a href="#home" data-i18n="n_home">home</a></li>
+      <li><a href="#about" data-i18n="n_about">about</a></li>
+      <li><a href="#education" data-i18n="n_edu">education</a></li>
+      <li><a href="#skills" data-i18n="n_skills">skills</a></li>
+      <li><a href="#experience" data-i18n="n_exp">experience</a></li>
+      <li><a href="#services" data-i18n="n_srv">services</a></li>
+      <li><a href="#projects" data-i18n="n_proj">projects</a></li>
+      <li><a href="#contact" data-i18n="n_contact">contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch to dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <button class="icon-btn" id="lang" type="button" aria-label="التبديل إلى العربية">ع</button>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="btn btn-primary" href="#contact" data-i18n="cta_contact">Contact me</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- 1 · HOME -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" data-i18n="h_hello">Hello, I'm</p>
+      <h1 data-i18n="h_name">Sara Mohamed <span>Atta Fahim</span></h1>
+      <p class="role" data-i18n="h_role">Data Engineer · Microsoft Azure</p>
+      <p class="usp" data-i18n="h_usp">I help small and growing businesses turn <strong>scattered spreadsheets and databases into one reliable, automated data source</strong> on Microsoft Azure, documented in plain language so their team can trust every number.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#projects" data-i18n="h_work">View my work</a>
+        <a class="btn btn-ghost" href="Sara_Fahim_CV.pdf" download data-i18n="h_cv">Download CV</a>
+      </div>
+    </div>
+
+    <figure class="pipeline" aria-label="Diagram: four scattered data sources flow through raw, cleaned and trusted layers into one report">
+      <div class="pipeline-head"><span>pipeline: daily_sales_load</span><span class="ok">● succeeded</span></div>
+      <svg viewBox="0 0 440 300" role="img" aria-hidden="true" style="direction:ltr">
+        <g class="src">
+          <rect x="4" y="18" width="112" height="40" rx="6"/><text x="16" y="36">branch_1.xlsx</text><text class="sub" x="16" y="50">excel</text>
+          <rect x="4" y="88" width="112" height="40" rx="6"/><text x="16" y="106">orders.csv</text><text class="sub" x="16" y="120">file drop</text>
+          <rect x="4" y="158" width="112" height="40" rx="6"/><text x="16" y="176">crm.sql</text><text class="sub" x="16" y="190">database</text>
+          <rect x="4" y="228" width="112" height="40" rx="6"/><text x="16" y="246">stock.json</text><text class="sub" x="16" y="260">api</text>
+        </g>
+        <path class="base" d="M116 38 C160 38 150 148 190 148"/>
+        <path class="base" d="M116 108 C160 108 160 148 190 148"/>
+        <path class="base" d="M116 178 C160 178 160 148 190 148"/>
+        <path class="base" d="M116 248 C160 248 150 148 190 148"/>
+        <path class="flow" style="stroke:var(--bronze)" d="M116 38 C160 38 150 148 190 148"/>
+        <path class="flow" style="stroke:var(--bronze)" d="M116 108 C160 108 160 148 190 148"/>
+        <path class="flow" style="stroke:var(--bronze)" d="M116 178 C160 178 160 148 190 148"/>
+        <path class="flow" style="stroke:var(--bronze)" d="M116 248 C160 248 150 148 190 148"/>
+
+        <rect x="190" y="126" width="46" height="44" rx="8" style="fill:var(--bronze)"/>
+        <text x="199" y="152" style="fill:#fff">raw</text>
+        <path class="base" d="M236 148 H262"/><path class="flow" style="stroke:var(--silver)" d="M236 148 H262"/>
+        <rect x="262" y="126" width="54" height="44" rx="8" style="fill:var(--silver)"/>
+        <text x="268" y="152" style="fill:#fff">clean</text>
+        <path class="base" d="M316 148 H342"/><path class="flow" style="stroke:var(--gold)" d="M316 148 H342"/>
+        <rect x="342" y="112" width="92" height="72" rx="8" style="fill:var(--gold)"/>
+        <text x="352" y="140" style="fill:#fff;font-weight:500">trusted</text>
+        <text x="352" y="156" style="fill:#fff;font-size:10px">one table</text>
+        <text x="352" y="170" style="fill:#fff;font-size:10px">✓ checked</text>
+
+        <text class="sub" x="190" y="200">dedupe · fix types</text>
+        <text class="sub" x="190" y="214">flag missing values</text>
+        <path class="base" d="M388 184 V232"/><path class="flow" style="stroke:var(--gold)" d="M388 184 V232"/>
+        <rect x="342" y="232" width="92" height="36" rx="6" style="fill:var(--surface-2);stroke:var(--line)"/>
+        <text x="354" y="254">report ▸</text>
+      </svg>
+      <figcaption class="pipeline-legend">
+        <span style="--c:var(--bronze)" data-i18n="leg1">raw — as received</span>
+        <span style="--c:var(--silver)" data-i18n="leg2">clean — validated</span>
+        <span style="--c:var(--gold)" data-i18n="leg3">trusted — ready to use</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 2 · ABOUT -->
+<section class="block about" id="about">
+  <div class="wrap">
+    <div class="sec-head"><h2 data-i18n="s_about">About</h2><span class="tbl">who_i_am</span></div>
+    <div class="about-grid">
+      <div class="reveal">
+        <h3 data-i18n="a_hook">Scattered data in. One source you can trust out.</h3>
+        <p data-i18n="a_p1"><span class="hi">Hi, I'm Sara Mohamed Atta Fahim, a Data Science student at Helwan National University and a data engineer trained in the Microsoft Data Engineering track at the Digital Egypt Pioneers Initiative (DEPI).</span> I build the pipelines that move data from spreadsheets, files, and databases into one clean, organized place on Microsoft Azure.</p>
+        <p data-i18n="a_p2">I specialize in ETL pipelines with Azure Data Factory, data cleaning with Python and SQL, and data models that keep reports fast and accurate. What sets my work apart is that every pipeline I deliver comes with data quality checks and clear documentation in English or Arabic, so the people using the data know exactly where each number comes from.</p>
+      </div>
+      <aside class="card id-card reveal">
+        <div class="monogram" aria-hidden="true">SF</div>
+        <h4 data-i18n="name">Sara Mohamed Atta Fahim</h4>
+        <p class="sub" data-i18n="h_role">Data Engineer · Microsoft Azure</p>
+        <dl class="kv">
+          <dt data-i18n="k_based">based in</dt><dd data-i18n="v_based">Egypt · works remotely</dd>
+          <dt data-i18n="k_study">studying</dt><dd data-i18n="v_study">Data Science · HNU</dd>
+          <dt data-i18n="k_lang">languages</dt><dd data-i18n="v_lang">Arabic (native) · English</dd>
+          <dt data-i18n="k_train">training</dt><dd data-i18n="v_train">DEPI · Microsoft Data Engineer track</dd>
+        </dl>
+        <ul class="tags">
+          <li>Azure Data Factory</li><li>SQL</li><li>Python</li><li>Databricks</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · EDUCATION -->
+<section class="block" id="education">
+  <div class="wrap">
+    <div class="sec-head"><h2 data-i18n="s_edu">Education</h2><span class="tbl">education_and_certificates</span></div>
+    <div class="two">
+      <div class="reveal">
+        <p class="col-title" data-i18n="c_edu">Education</p>
+        <article class="card edu">
+          <h4 data-i18n="e_deg">Bachelor's Degree in Data Science</h4>
+          <p class="meta" data-i18n="e_uni">Faculty of Computer Science — Helwan National University (HNU)</p>
+          <p class="meta" data-i18n="e_status">3rd year · Started 2024</p>
+          <div class="row-split">
+            <span data-i18n="e_gpa">GPA: 2.7 / 4.0</span>
+            <span data-i18n="e_grad">Expected graduation: 2028</span>
+          </div>
+        </article>
+      </div>
+      <div class="reveal">
+        <p class="col-title" data-i18n="c_cert">Certificates</p>
+        <article class="card cert">
+          <div class="cert-top">
+            <span class="issuer"><i>DEPI</i><span data-i18n="cert_issuer">Digital Egypt Pioneers Initiative</span></span>
+          </div>
+          <h4 data-i18n="cert_name">Microsoft Data Engineer Track</h4>
+          <p class="meta" data-i18n="cert_date">Jul 2026 – Dec 2026 · 6 months · in progress</p>
+          <p class="meta" data-i18n="cert_desc">Hands-on training in building data pipelines on Microsoft Azure: SQL, Python, Azure Data Factory, data lakes, Databricks, and data warehousing.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · SKILLS -->
+<section class="block" id="skills">
+  <div class="wrap">
+    <div class="sec-head"><h2 data-i18n="s_skills">Skills</h2><span class="tbl">skills_by_group</span></div>
+    <div class="skills-grid">
+      <article class="card skill reveal">
+        <h4 data-i18n="sk1_t">Data languages</h4>
+        <p data-i18n="sk1_d">Querying, joining, and transforming data at every step of a pipeline.</p>
+        <ul class="tags"><li>SQL (T-SQL)</li><li>Python</li><li>Pandas</li><li>PySpark</li></ul>
+      </article>
+      <article class="card skill reveal">
+        <h4 data-i18n="sk2_t">Azure data services</h4>
+        <p data-i18n="sk2_d">Moving, storing, and processing data in the Microsoft cloud.</p>
+        <ul class="tags"><li>Azure Data Factory</li><li>Data Lake Storage Gen2</li><li>Azure Databricks</li><li>Azure SQL Database</li><li>Azure Synapse</li></ul>
+      </article>
+      <article class="card skill reveal">
+        <h4 data-i18n="sk3_t">Data modeling</h4>
+        <p data-i18n="sk3_d">Organizing data so reports stay fast and questions stay simple.</p>
+        <ul class="tags"><li>ETL / ELT</li><li>Star schema</li><li>Data warehousing</li><li>Medallion layers</li></ul>
+      </article>
+      <article class="card skill reveal">
+        <h4 data-i18n="sk4_t">Tools</h4>
+        <p data-i18n="sk4_d">Versioning my work and handing clean data to analysts.</p>
+        <ul class="tags"><li>Git &amp; GitHub</li><li>Jupyter</li><li>Power BI</li><li>Excel</li></ul>
+      </article>
+      <article class="card skill reveal">
+        <h4 data-i18n="sk5_t">Soft skills</h4>
+        <p data-i18n="sk5_d">How I work with a team and a client.</p>
+        <ul class="tags"><li data-i18n="soft1">Planning &amp; organizing</li><li data-i18n="soft2">Clear communication</li><li data-i18n="soft3">Decision making</li><li data-i18n="soft4">Results focus</li></ul>
+      </article>
+      <article class="card skill learning reveal">
+        <h4 data-i18n="sk6_t">Currently learning</h4>
+        <p data-i18n="sk6_d">Where I'm taking my skills next.</p>
+        <ul class="tags"><li>Microsoft Fabric</li><li data-i18n="learn2">Pipeline monitoring</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · EXPERIENCE -->
+<section class="block" id="experience">
+  <div class="wrap">
+    <div class="sec-head"><h2 data-i18n="s_exp">Experience</h2><span class="tbl">experience</span></div>
+    <article class="card exp reveal">
+      <div class="exp-side">
+        <span class="date" data-i18n="x_date">07/2026 – present</span>
+        <h4 data-i18n="x_title">Data Engineering Trainee</h4>
+        <p class="meta" data-i18n="x_org">DEPI — Digital Egypt Pioneers Initiative</p>
+        <p class="meta" data-i18n="x_type">Microsoft Data Engineer track · 6-month training</p>
+      </div>
+      <div>
+        <div class="car">
+          <div style="--c:var(--flag)">
+            <h5 data-i18n="l_ch">Challenge</h5>
+            <p data-i18n="x_ch">Learning the full Microsoft data engineering stack in an intensive program, from SQL fundamentals to cloud pipelines, while delivering labs and my individual project, ShopStream Retail Analytics, on fixed deadlines.</p>
+          </div>
+          <div style="--c:var(--accent)">
+            <h5 data-i18n="l_ac">Action</h5>
+            <ul data-i18n="x_ac">
+              <li>Built ETL pipelines in Azure Data Factory that copy and transform data between files, data lakes, and SQL databases.</li>
+              <li>Wrote SQL queries and Python scripts to clean, join, and validate datasets.</li>
+              <li>Designed star-schema models so the data is ready for reporting in Power BI.</li>
+              <li>Planned and delivered my individual project, ShopStream Retail Analytics, on schedule.</li>
+            </ul>
+          </div>
+          <div style="--c:var(--gold)">
+            <h5 data-i18n="l_re">Result</h5>
+            <p data-i18n="x_re">Delivered working pipelines, data models, and documentation for the track's labs and for ShopStream Retail Analytics.</p>
+          </div>
+        </div>
+        <ul class="tags"><li>Azure Data Factory</li><li>Azure SQL</li><li>Databricks</li><li>Python</li><li>SQL</li><li>Git</li></ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 6 · SERVICES -->
+<section class="block" id="services">
+  <div class="wrap">
+    <div class="sec-head"><h2 data-i18n="s_srv">Services</h2><span class="tbl">what_i_offer</span></div>
+    <div class="services">
+      <article class="card service reveal">
+        <h4 data-i18n="sv1_t">Data pipeline setup</h4>
+        <dl>
+          <div><dt data-i18n="l_get">What you get</dt><dd data-i18n="sv1_get">Automated Azure Data Factory pipelines that collect data from your files, databases, and apps on a schedule.</dd></div>
+          <div><dt data-i18n="l_prob">Problem it solves</dt><dd data-i18n="sv1_prob">Copying and merging data between systems by hand every week.</dd></div>
+          <div><dt data-i18n="l_re">Result</dt><dd class="result" data-i18n="sv1_re">Fresh data arrives on time with no manual work.</dd></div>
+        </dl>
+        <ul class="tags"><li>Data Factory</li><li>Data Lake</li><li>Scheduling</li></ul>
+      </article>
+      <article class="card service reveal">
+        <h4 data-i18n="sv2_t">Data cleaning &amp; quality checks</h4>
+        <dl>
+          <div><dt data-i18n="l_get">What you get</dt><dd data-i18n="sv2_get">Python and SQL rules that fix formats, remove duplicates, and flag bad records before they spread.</dd></div>
+          <div><dt data-i18n="l_prob">Problem it solves</dt><dd data-i18n="sv2_prob">Reports built on messy data show numbers nobody trusts.</dd></div>
+          <div><dt data-i18n="l_re">Result</dt><dd class="result" data-i18n="sv2_re">The same number in every report, with a clear record of what was fixed.</dd></div>
+        </dl>
+        <ul class="tags"><li>Python</li><li>PySpark</li><li>SQL</li></ul>
+      </article>
+      <article class="card service reveal">
+        <h4 data-i18n="sv3_t">Data modeling for reporting</h4>
+        <dl>
+          <div><dt data-i18n="l_get">What you get</dt><dd data-i18n="sv3_get">A star-schema model in Azure SQL, documented and ready to connect to Power BI.</dd></div>
+          <div><dt data-i18n="l_prob">Problem it solves</dt><dd data-i18n="sv3_prob">Slow, confusing reports built directly on raw tables.</dd></div>
+          <div><dt data-i18n="l_re">Result</dt><dd class="result" data-i18n="sv3_re">Faster reports and simpler questions for your analysts.</dd></div>
+        </dl>
+        <ul class="tags"><li>Star schema</li><li>Azure SQL</li><li>Power BI</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · PROJECTS -->
+<section class="block" id="projects">
+  <div class="wrap">
+    <div class="sec-head"><h2 data-i18n="s_proj">Projects</h2><span class="tbl">featured_projects</span></div>
+    <p class="lede" data-i18n="p_lede">Each project follows a pipeline from a real problem to a usable result. Projects marked <em>Concept work</em> were created as practice to demonstrate my skills, not for a paying client.</p>
+    <div class="projects">
+
+      <article class="card project reveal">
+        <div class="p-cover">
+          <div class="badges"><span class="badge concept">Concept work</span><span class="badge" data-i18n="p1_b">End-to-end pipeline</span></div>
+          <svg viewBox="0 0 300 150" aria-hidden="true">
+            <rect class="n" x="2" y="14" width="86" height="26" rx="5"/><text x="45" y="30">branch_1.csv</text>
+            <rect class="n" x="2" y="62" width="86" height="26" rx="5"/><text x="45" y="78">branch_2.csv</text>
+            <rect class="n" x="2" y="110" width="86" height="26" rx="5"/><text x="45" y="126">branch_3.xlsx</text>
+            <path d="M88 27 C104 27 104 75 118 75 M88 75 H118 M88 123 C104 123 104 75 118 75" fill="none" stroke="var(--bronze)" stroke-width="1.6"/>
+            <rect x="118" y="60" width="50" height="30" rx="6" style="fill:var(--bronze)"/><text x="143" y="78" style="fill:#fff">ADLS</text>
+            <path d="M168 75 H182" stroke="var(--silver)" stroke-width="1.6"/>
+            <rect x="182" y="60" width="52" height="30" rx="6" style="fill:var(--silver)"/><text x="208" y="78" style="fill:#fff">Spark</text>
+            <path d="M234 75 H246" stroke="var(--gold)" stroke-width="1.6"/>
+            <rect x="246" y="54" width="52" height="42" rx="6" style="fill:var(--gold)"/><text x="272" y="72" style="fill:#fff">Azure</text><text x="272" y="85" style="fill:#fff">SQL</text>
+          </svg>
+          <p class="concept-note" data-i18n="p1_note">Concept Work — created as a practice project to demonstrate my skills.</p>
+        </div>
+        <div class="p-body">
+          <h4 data-i18n="p1_t">Branch Sales Pipeline</h4>
+          <p class="one" data-i18n="p1_one">An automated Azure pipeline that merges daily sales files from several store branches into one reporting table.</p>
+          <p class="role-line" data-i18n="p1_role">role: solo — design, build, documentation</p>
+          <div class="car">
+            <div style="--c:var(--flag)"><h5 data-i18n="l_ch">Challenge</h5><p data-i18n="p1_ch">A retail business receives each branch's sales as a separate Excel or CSV file. Merging them by hand is slow, and totals often don't match between reports.</p></div>
+            <div style="--c:var(--accent)"><h5 data-i18n="l_ac">Action</h5><p data-i18n="p1_ac">Built an Azure Data Factory pipeline that picks up new files from Data Lake Storage, cleans them in Databricks with PySpark through raw, cleaned, and trusted layers, and loads a star schema into Azure SQL Database.</p></div>
+            <div style="--c:var(--gold)"><h5 data-i18n="l_re">Result</h5><p data-i18n="p1_re">Sales from every branch land in one table on a schedule, and rows with missing or duplicate values are flagged before they reach the report.</p></div>
+          </div>
+          <ul class="tags"><li>Azure Data Factory</li><li>ADLS Gen2</li><li>Databricks</li><li>PySpark</li><li>Azure SQL</li></ul>
+          <div class="p-links">
+            <a class="btn btn-primary" href="#" data-i18n="p_gh">↗ View on GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card project reveal">
+        <div class="p-cover">
+          <div class="badges"><span class="badge concept">Concept work</span><span class="badge" data-i18n="p2_b">Data warehouse</span></div>
+          <svg viewBox="0 0 300 150" aria-hidden="true">
+            <rect x="110" y="55" width="80" height="40" rx="6" style="fill:var(--gold)"/><text x="150" y="72" style="fill:#fff">fact_order</text><text x="150" y="85" style="fill:#fff">_items</text>
+            <g stroke="var(--line)" stroke-width="1.6"><path d="M150 55 V34"/><path d="M150 95 V116"/><path d="M110 75 H86"/><path d="M190 75 H214"/></g>
+            <rect class="n" x="104" y="8" width="92" height="26" rx="5"/><text x="150" y="24">dim_customer</text>
+            <rect class="n" x="104" y="116" width="92" height="26" rx="5"/><text x="150" y="132">dim_date</text>
+            <rect class="n" x="2" y="62" width="84" height="26" rx="5"/><text x="44" y="78">dim_product</text>
+            <rect class="n" x="214" y="62" width="84" height="26" rx="5"/><text x="256" y="78">dim_seller</text>
+          </svg>
+          <p class="concept-note" data-i18n="p2_note">Concept Work — built on the public Olist e-commerce dataset.</p>
+        </div>
+        <div class="p-body">
+          <h4 data-i18n="p2_t">E-commerce Data Warehouse</h4>
+          <p class="one" data-i18n="p2_one">A star-schema warehouse that turns nine related e-commerce tables into one model ready for reporting.</p>
+          <p class="role-line" data-i18n="p2_role">role: solo — data model, SQL, load logic</p>
+          <div class="car">
+            <div style="--c:var(--flag)"><h5 data-i18n="l_ch">Challenge</h5><p data-i18n="p2_ch">The public Olist dataset spreads orders, customers, products, sellers, payments, and reviews across nine files. A simple question like "which category has the most late deliveries?" needs many joins.</p></div>
+            <div style="--c:var(--accent)"><h5 data-i18n="l_ac">Action</h5><p data-i18n="p2_ac">Designed a star schema with an order-items fact table and customer, product, seller, and date dimensions. Wrote T-SQL stored procedures to load it, including an incremental load that only processes new orders.</p></div>
+            <div style="--c:var(--gold)"><h5 data-i18n="l_re">Result</h5><p data-i18n="p2_re">Business questions are answered with short queries against one fact table, and the model connects directly to Power BI.</p></div>
+          </div>
+          <ul class="tags"><li>SQL Server</li><li>T-SQL</li><li>Star schema</li><li>Python</li><li>Power BI</li></ul>
+          <div class="p-links">
+            <a class="btn btn-primary" href="#" data-i18n="p_gh">↗ View on GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card project reveal">
+        <div class="p-cover">
+          <div class="badges"><span class="badge concept">Concept work</span><span class="badge" data-i18n="p3_b">Data quality</span></div>
+          <svg viewBox="0 0 300 150" aria-hidden="true">
+            <rect class="n" x="2" y="58" width="90" height="34" rx="5"/><text x="47" y="78">trips.parquet</text>
+            <path d="M92 75 H116" stroke="var(--bronze)" stroke-width="1.6"/>
+            <rect x="116" y="52" width="66" height="46" rx="6" style="fill:var(--silver)"/><text x="149" y="72" style="fill:#fff">validate</text><text x="149" y="85" style="fill:#fff">rules</text>
+            <path d="M182 68 C198 68 198 36 212 36 M182 82 C198 82 198 114 212 114" fill="none" stroke="var(--line)" stroke-width="1.6"/>
+            <rect x="212" y="20" width="86" height="32" rx="6" style="fill:var(--gold)"/><text x="255" y="39" style="fill:#fff">✓ clean</text>
+            <rect x="212" y="98" width="86" height="32" rx="6" style="fill:var(--flag)"/><text x="255" y="117" style="fill:#fff">✕ quarantine</text>
+          </svg>
+          <p class="concept-note" data-i18n="p3_note">Concept Work — built on public NYC taxi trip records.</p>
+        </div>
+        <div class="p-body">
+          <h4 data-i18n="p3_t">Data Quality Checker</h4>
+          <p class="one" data-i18n="p3_one">A reusable Python tool that tests a dataset against validation rules before it enters a pipeline.</p>
+          <p class="role-line" data-i18n="p3_role">role: solo — rules, script, report</p>
+          <div class="car">
+            <div style="--c:var(--flag)"><h5 data-i18n="l_ch">Challenge</h5><p data-i18n="p3_ch">Raw taxi trip records contain negative fares, zero-distance trips, and drop-off times before pick-up. Loading them as they are breaks every report built on top.</p></div>
+            <div style="--c:var(--accent)"><h5 data-i18n="l_ac">Action</h5><p data-i18n="p3_ac">Wrote a Python script that profiles each column, applies validation rules, moves failed rows to a quarantine file with the reason they failed, and writes a short data quality report.</p></div>
+            <div style="--c:var(--gold)"><h5 data-i18n="l_re">Result</h5><p data-i18n="p3_re">Only clean rows move forward, and rejected rows are kept with their reason, so no data is silently lost.</p></div>
+          </div>
+          <ul class="tags"><li>Python</li><li>Pandas</li><li>Parquet</li><li>Jupyter</li><li>Git</li></ul>
+          <div class="p-links">
+            <a class="btn btn-primary" href="#" data-i18n="p_gh">↗ View on GitHub</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- 10 · CONTACT -->
+<section class="block" id="contact">
+  <div class="wrap">
+    <div class="sec-head"><h2 data-i18n="s_contact">Contact</h2><span class="tbl">get_in_touch</span></div>
+    <p class="lede" data-i18n="c_lede">Open to freelance data engineering projects, internships, and full-time roles. Tell me where your data lives today and what you need from it.</p>
+    <div class="contact-grid">
+      <div class="direct">
+        <a class="card" href="mailto:mattasara84@gmail.com"><span class="ic" aria-hidden="true">@</span><span><span class="k" data-i18n="k_email">Email</span><span class="v ltr">mattasara84@gmail.com</span></span></a>
+        <a class="card" href="https://wa.me/201098856404" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">wa</span><span><span class="k" data-i18n="k_phone">Phone / WhatsApp</span><span class="v ltr">+20 109 885 6404</span></span></a>
+        <a class="card" href="https://www.linkedin.com/in/sara-mohamed-atta-" target="_blank" rel="noopener"><span class="ic" aria-hidden="true">in</span><span><span class="k">LinkedIn</span><span class="v ltr">linkedin.com/in/sara-mohamed-atta-</span></span></a>
+        <a class="card" href="#"><span class="ic" aria-hidden="true">gh</span><span><span class="k">GitHub</span><span class="v"><mark class="todo ltr">[github.com/…]</mark></span></span></a>
+      </div>
+      <form class="card" id="contactForm">
+        <div class="f-row">
+          <label><span data-i18n="f_name">Your name</span><input name="name" autocomplete="name" required></label>
+          <label><span data-i18n="f_email">Your email</span><input name="email" type="email" autocomplete="email" required></label>
+        </div>
+        <label><span data-i18n="f_subj">Subject</span><input name="subject"></label>
+        <label><span data-i18n="f_msg">Tell me about your data</span><textarea name="message" required></textarea></label>
+        <button class="btn btn-primary" type="submit" data-i18n="f_send">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <h5 data-i18n="ft_who">Who am I</h5>
+        <p data-i18n="ft_who_p">I'm Sara Mohamed Atta Fahim, a data engineer who builds reliable, documented data pipelines on Microsoft Azure.</p>
+      </div>
+      <div>
+        <h5 data-i18n="ft_sec">Sections</h5>
+        <ul><li><a href="#services" data-i18n="ft_s1">Services</a></li><li><a href="#projects" data-i18n="ft_s2">Projects</a></li><li><a href="#education" data-i18n="ft_s3">Education</a></li></ul>
+      </div>
+      <div>
+        <h5 data-i18n="ft_con">Let's connect</h5>
+        <ul><li><a href="https://www.linkedin.com/in/sara-mohamed-atta-" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://wa.me/201098856404" target="_blank" rel="noopener" data-i18n="ft_wa">WhatsApp</a></li><li><a href="mailto:mattasara84@gmail.com" data-i18n="k_email">Email</a></li></ul>
+      </div>
+    </div>
+    <div class="legal"><span data-i18n="ft_copy">© 2026 Sara Mohamed Atta Fahim</span><span data-i18n="ft_role">Data Engineer · Egypt</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var AR={
+    n_home:"الرئيسية",n_about:"نبذة",n_edu:"التعليم",n_skills:"المهارات",n_exp:"الخبرة",n_srv:"الخدمات",n_proj:"المشاريع",n_contact:"تواصل",
+    cta_contact:"تواصل معي",
+    h_hello:"أهلًا، أنا",
+    h_name:"سارة محمد <span>عطا فهيم</span>",
+    h_role:"مهندسة بيانات · Microsoft Azure",
+    h_usp:"أساعد الشركات الصغيرة والناشئة على تحويل <strong>ملفات الإكسل وقواعد البيانات المتفرقة إلى مصدر بيانات واحد موثوق ومؤتمت</strong> على Microsoft Azure، مع توثيق واضح يفهمه فريقهم ويثق في كل رقم فيه.",
+    h_work:"شاهد أعمالي",h_cv:"تحميل السيرة الذاتية",
+    leg1:"خام — كما وصلت",leg2:"منظّفة — تم التحقق منها",leg3:"موثوقة — جاهزة للاستخدام",
+    s_about:"نبذة عني",
+    a_hook:"بيانات متفرقة تدخل، ومصدر واحد موثوق يخرج.",
+    a_p1:"<span class=\"hi\">أنا سارة محمد عطا فهيم، طالبة علوم بيانات في جامعة حلوان الأهلية، ومتدربة في مسار Microsoft Data Engineering ضمن مبادرة رواد مصر الرقمية (DEPI).</span> أبني خطوط البيانات (Pipelines) التي تنقل البيانات من ملفات الإكسل والملفات وقواعد البيانات إلى مكان واحد نظيف ومنظّم على Microsoft Azure.",
+    a_p2:"أتخصص في بناء خطوط ETL باستخدام Azure Data Factory، وتنظيف البيانات باستخدام Python وSQL، وتصميم نماذج بيانات تجعل التقارير سريعة ودقيقة. ما يميز عملي أن كل Pipeline أسلّمها تأتي مع فحوصات لجودة البيانات وتوثيق واضح بالعربية أو الإنجليزية، حتى يعرف مستخدمو البيانات مصدر كل رقم بالضبط.",
+    name:"سارة محمد عطا فهيم",
+    k_based:"المقر",v_based:"مصر · أعمل عن بُعد",
+    k_study:"الدراسة",v_study:"علوم البيانات · جامعة حلوان الأهلية",
+    k_lang:"اللغات",v_lang:"العربية (اللغة الأم) · الإنجليزية",
+    k_train:"التدريب",v_train:"DEPI · مسار Microsoft Data Engineer",
+    s_edu:"التعليم",c_edu:"الدراسة",c_cert:"الشهادات",
+    e_deg:"بكالوريوس علوم البيانات",
+    e_uni:"كلية علوم الحاسب — جامعة حلوان الأهلية (HNU)",
+    e_status:"السنة الثالثة · بدأت الدراسة 2024",
+    e_gpa:"المعدل التراكمي: 2.7 / 4.0",
+    e_grad:"التخرج المتوقع: 2028",
+    cert_issuer:"مبادرة رواد مصر الرقمية",
+    cert_name:"مسار Microsoft Data Engineer",
+    cert_date:"يوليو 2026 – ديسمبر 2026 · 6 أشهر · جارٍ",
+    cert_desc:"تدريب عملي على بناء خطوط البيانات على Microsoft Azure: SQL وPython وAzure Data Factory وData Lakes وDatabricks ومستودعات البيانات.",
+    s_skills:"المهارات",
+    sk1_t:"لغات البيانات",sk1_d:"استعلام البيانات وربطها وتحويلها في كل مرحلة من مراحل الـ Pipeline.",
+    sk2_t:"خدمات البيانات على Azure",sk2_d:"نقل البيانات وتخزينها ومعالجتها على سحابة Microsoft.",
+    sk3_t:"نمذجة البيانات",sk3_d:"تنظيم البيانات حتى تبقى التقارير سريعة والأسئلة بسيطة.",
+    sk4_t:"الأدوات",sk4_d:"إدارة إصدارات عملي وتسليم بيانات نظيفة للمحللين.",
+    sk5_t:"المهارات الشخصية",sk5_d:"طريقتي في العمل مع الفريق والعميل.",
+    soft1:"التخطيط والتنظيم",soft2:"التواصل الواضح",soft3:"اتخاذ القرار",soft4:"التركيز على النتائج",
+    sk6_t:"أتعلم حاليًا",sk6_d:"الخطوة القادمة في تطوير مهاراتي.",learn2:"مراقبة الـ Pipelines",
+    s_exp:"الخبرة",
+    x_date:"07/2026 – حتى الآن",
+    x_title:"متدربة هندسة بيانات",
+    x_org:"DEPI — مبادرة رواد مصر الرقمية",
+    x_type:"مسار Microsoft Data Engineer · تدريب لمدة 6 أشهر",
+    l_ch:"التحدي",l_ac:"ما قمت به",l_re:"النتيجة",
+    x_ch:"تعلّم منظومة هندسة البيانات من Microsoft بالكامل في برنامج مكثف، من أساسيات SQL حتى خطوط البيانات السحابية، مع تسليم التمارين العملية ومشروعي الفردي ShopStream Retail Analytics في مواعيد محددة.",
+    x_ac:"<li>بنيت خطوط ETL في Azure Data Factory لنسخ البيانات وتحويلها بين الملفات وData Lakes وقواعد بيانات SQL.</li><li>كتبت استعلامات SQL وسكربتات Python لتنظيف البيانات وربطها والتحقق منها.</li><li>صممت نماذج Star Schema لتجهيز البيانات للتقارير في Power BI.</li><li>خططت مشروعي الفردي ShopStream Retail Analytics ونفذته وسلّمته في الموعد المحدد.</li>",
+    x_re:"سلّمت Pipelines ونماذج بيانات وتوثيقًا يعمل بالكامل لتمارين المسار ولمشروع ShopStream Retail Analytics.",
+    s_srv:"الخدمات",l_get:"ما ستحصل عليه",l_prob:"المشكلة التي تحلها",
+    sv1_t:"إعداد خطوط البيانات",
+    sv1_get:"Pipelines مؤتمتة في Azure Data Factory تجمع البيانات من ملفاتك وقواعد بياناتك وتطبيقاتك وفق جدول زمني.",
+    sv1_prob:"نسخ البيانات ودمجها يدويًا بين الأنظمة كل أسبوع.",
+    sv1_re:"بيانات محدّثة تصل في موعدها دون أي عمل يدوي.",
+    sv2_t:"تنظيف البيانات وفحص جودتها",
+    sv2_get:"قواعد بـ Python وSQL تصلح التنسيقات وتحذف التكرار وتكشف السجلات الخاطئة قبل أن تنتشر.",
+    sv2_prob:"تقارير مبنية على بيانات غير نظيفة تعرض أرقامًا لا يثق بها أحد.",
+    sv2_re:"نفس الرقم في كل تقرير، مع سجل واضح لكل ما تم إصلاحه.",
+    sv3_t:"نمذجة البيانات للتقارير",
+    sv3_get:"نموذج Star Schema على Azure SQL، موثّق وجاهز للربط مع Power BI.",
+    sv3_prob:"تقارير بطيئة ومربكة مبنية مباشرة على جداول خام.",
+    sv3_re:"تقارير أسرع وأسئلة أبسط لفريق التحليل.",
+    s_proj:"المشاريع",
+    p_lede:"كل مشروع يتتبع مسار البيانات من مشكلة حقيقية إلى نتيجة قابلة للاستخدام. المشاريع المكتوب عليها <em>Concept work</em> نُفّذت كمشاريع تدريبية لإظهار مهاراتي، وليست لعميل حقيقي.",
+    p1_b:"Pipeline متكامل",p2_b:"مستودع بيانات",p3_b:"جودة البيانات",
+    p1_note:"Concept Work — مشروع تدريبي لإظهار مهاراتي.",
+    p2_note:"Concept Work — مبني على بيانات Olist العامة للتجارة الإلكترونية.",
+    p3_note:"Concept Work — مبني على بيانات رحلات تاكسي نيويورك العامة.",
+    p_gh:"↗ عرض على GitHub",
+    p1_t:"Pipeline مبيعات الفروع",
+    p1_one:"Pipeline مؤتمت على Azure يدمج ملفات المبيعات اليومية من عدة فروع في جدول تقارير واحد.",
+    p1_role:"الدور: فردي — التصميم والتنفيذ والتوثيق",
+    p1_ch:"شركة تجزئة تستلم مبيعات كل فرع في ملف Excel أو CSV منفصل. الدمج اليدوي بطيء، والإجماليات غالبًا لا تتطابق بين التقارير.",
+    p1_ac:"بنيت Pipeline في Azure Data Factory يلتقط الملفات الجديدة من Data Lake Storage، وينظفها في Databricks باستخدام PySpark عبر طبقات خام ثم منظّفة ثم موثوقة، ويحمّل Star Schema إلى Azure SQL Database.",
+    p1_re:"مبيعات كل الفروع تصل إلى جدول واحد وفق جدول زمني، والصفوف الناقصة أو المكررة يتم تمييزها قبل وصولها للتقرير.",
+    p2_t:"مستودع بيانات للتجارة الإلكترونية",
+    p2_one:"مستودع بيانات بتصميم Star Schema يحوّل تسعة جداول مترابطة إلى نموذج واحد جاهز للتقارير.",
+    p2_role:"الدور: فردي — نموذج البيانات وSQL ومنطق التحميل",
+    p2_ch:"بيانات Olist العامة موزعة على تسعة ملفات: الطلبات والعملاء والمنتجات والبائعون والمدفوعات والتقييمات. سؤال بسيط مثل «أي فئة لديها أكثر تأخير في التوصيل؟» يحتاج إلى عمليات ربط كثيرة.",
+    p2_ac:"صممت Star Schema بجدول Fact لعناصر الطلبات وجداول Dimension للعميل والمنتج والبائع والتاريخ، وكتبت Stored Procedures بـ T-SQL لتحميله، مع تحميل تزايدي يعالج الطلبات الجديدة فقط.",
+    p2_re:"الأسئلة التجارية تُجاب باستعلامات قصيرة على جدول Fact واحد، والنموذج يتصل مباشرة بـ Power BI.",
+    p3_t:"أداة فحص جودة البيانات",
+    p3_one:"أداة Python قابلة لإعادة الاستخدام تختبر البيانات بقواعد تحقق قبل دخولها أي Pipeline.",
+    p3_role:"الدور: فردي — القواعد والسكربت والتقرير",
+    p3_ch:"سجلات رحلات التاكسي الخام تحتوي على أجرة سالبة، ورحلات بمسافة صفر، وأوقات وصول قبل وقت الانطلاق. تحميلها كما هي يفسد كل تقرير مبني عليها.",
+    p3_ac:"كتبت سكربت Python يحلل كل عمود، ويطبق قواعد التحقق، وينقل الصفوف المرفوضة إلى ملف عزل مع سبب رفضها، ويكتب تقريرًا مختصرًا عن جودة البيانات.",
+    p3_re:"الصفوف السليمة فقط تنتقل للمرحلة التالية، والصفوف المرفوضة محفوظة مع سببها، فلا تضيع أي بيانات دون علم.",
+    s_contact:"تواصل معي",
+    c_lede:"متاحة لمشاريع هندسة البيانات الحرة والتدريب والوظائف بدوام كامل. أخبرني أين توجد بياناتك اليوم وما الذي تحتاجه منها.",
+    k_email:"البريد الإلكتروني",k_phone:"الهاتف / واتساب",
+    f_name:"الاسم",f_email:"بريدك الإلكتروني",f_subj:"الموضوع",f_msg:"أخبرني عن بياناتك",f_send:"إرسال الرسالة",
+    ft_who:"من أنا",ft_who_p:"أنا سارة محمد عطا فهيم، مهندسة بيانات أبني خطوط بيانات موثوقة وموثّقة على Microsoft Azure.",
+    ft_sec:"الأقسام",ft_s1:"الخدمات",ft_s2:"المشاريع",ft_s3:"التعليم",
+    ft_con:"لنتواصل",ft_wa:"واتساب",
+    ft_copy:"© 2026 سارة محمد عطا فهيم",ft_role:"مهندسة بيانات · مصر"
+  };
+
+  var root=document.documentElement;
+  var themeBtn=document.getElementById('theme'), langBtn=document.getElementById('lang');
+  var nodes=[].slice.call(document.querySelectorAll('[data-i18n]'));
+  nodes.forEach(function(el){el._en=el.innerHTML});
+  var sun='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var moon=themeBtn.innerHTML;
+  function isAr(){return root.getAttribute('lang')==='ar'}
+  function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
+
+  function applyTheme(t){
+    root.setAttribute('data-theme',t);
+    themeBtn.innerHTML=t==='dark'?sun:moon;
+    var toLight=isAr()?'التبديل إلى الوضع الفاتح':'Switch to light mode';
+    var toDark=isAr()?'التبديل إلى الوضع الداكن':'Switch to dark mode';
+    themeBtn.setAttribute('aria-label',t==='dark'?toLight:toDark);
+  }
+  function applyLang(l){
+    var ar=l==='ar';
+    root.setAttribute('lang',ar?'ar':'en');
+    root.setAttribute('dir',ar?'rtl':'ltr');
+    nodes.forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      el.innerHTML=ar&&AR[k]!=null?AR[k]:el._en;
+    });
+    document.title=ar?'سارة فهيم — مهندسة بيانات':'Sara Fahim — Data Engineer';
+    langBtn.textContent=ar?'EN':'ع';
+    langBtn.setAttribute('aria-label',ar?'Switch to English':'التبديل إلى العربية');
+    applyTheme(root.getAttribute('data-theme')||'light');
+  }
+
+  applyTheme(load('sf-theme')||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+  var qs=/[?&]lang=(ar|en)/.exec(location.search);
+  applyLang(qs?qs[1]:(load('sf-lang')||'en'));
+
+  themeBtn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark'; applyTheme(t); save('sf-theme',t);
+  });
+  langBtn.addEventListener('click',function(){
+    var l=isAr()?'en':'ar'; applyLang(l); save('sf-lang',l);
+  });
+
+  var menu=document.getElementById('menu'), mb=document.getElementById('menuBtn');
+  mb.addEventListener('click',function(){var o=menu.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+  menu.addEventListener('click',function(e){if(e.target.tagName==='A'){menu.classList.remove('open');mb.setAttribute('aria-expanded','false')}});
+
+  var links=[].slice.call(menu.querySelectorAll('a'));
+  if('IntersectionObserver' in window){
+    var spy=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id)})}})},{rootMargin:'-45% 0px -50% 0px'});
+    document.querySelectorAll('main section[id]').forEach(function(s){spy.observe(s)});
+    var rv=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');rv.unobserve(en.target)}})},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){rv.observe(el)});
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+
+  document.getElementById('contactForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var f=e.target;
+    var body=encodeURIComponent(f.message.value+'\n\n— '+f.name.value+' ('+f.email.value+')');
+    location.href='mailto:mattasara84@gmail.com?subject='+encodeURIComponent(f.subject.value||'Project inquiry')+'&body='+body;
+  });
+})();
+</script>
+</body>
+</html>
